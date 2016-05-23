@@ -1,6 +1,8 @@
 package pl.rafalmag.xmasgiftsdrawer.algorithms
 
 import com.google.common.base.Preconditions
+import groovy.transform.EqualsAndHashCode
+import groovy.transform.ToString
 import pl.rafalmag.xmasgiftsdrawer.GiversReceivers
 import pl.rafalmag.xmasgiftsdrawer.GiversReceiversFactory
 import pl.rafalmag.xmasgiftsdrawer.Model
@@ -10,6 +12,8 @@ import pl.rafalmag.xmasgiftsdrawer.graph.ModelToModelIslands2
 
 import java.util.concurrent.*
 
+@ToString
+@EqualsAndHashCode
 class HamiltonDrawer implements Drawer {
 
     final Model model;

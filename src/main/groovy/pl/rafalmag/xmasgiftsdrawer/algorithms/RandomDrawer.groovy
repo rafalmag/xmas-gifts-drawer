@@ -43,17 +43,20 @@ class RandomDrawer implements Drawer {
         Collections.shuffle(receivers, random)
         givers.each { giver ->
             receivers.each { receiver ->
-                log.debug("giver: " + giver + " receiver: " + receiver)
-                if (model.canGive(giver, receiver) && !usedReceivers.contains(receiver) && !usedGivers.contains(giver)) {
+                log.trace("giver: {} receiver: {}", giver, receiver)
+                if (model.canGive(giver, receiver)
+                        && !usedReceivers.contains(receiver)
+                        && !usedGivers.contains(giver)) {
                     def giverReceiver = new GiverReceiver(giver, receiver)
-                    log.debug("giverReceiver: " + giverReceiver)
+                    log.trace("giverReceiver: {}", giverReceiver)
                     pairs.add(giverReceiver)
                     usedReceivers.add(receiver)
                     usedGivers.add(giver)
                 }
             }
         }
-        println pairs;
-        return new GiversReceivers(pairs);
+        def result = new GiversReceivers(pairs)
+        log.debug("Result candidate: {}", result);
+        return result;
     }
 }

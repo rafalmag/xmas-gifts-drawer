@@ -2,6 +2,8 @@ package pl.rafalmag.xmasgiftsdrawer
 
 import groovy.transform.Canonical
 
+//TODO model can be simplified when "only possible pairs" found - eg.
+// in 4 persons model if A person can give gift only to B person, model can be simplified to 3 "persons"
 @Canonical
 class PersonPair extends Person {
 
@@ -13,6 +15,5 @@ class PersonPair extends Person {
         this.receiver = receiver
         this.giver = giver
     }
-
 
 }

@@ -3,12 +3,16 @@ package pl.rafalmag.xmasgiftsdrawer.algorithms
 import com.google.common.base.Preconditions
 import com.google.common.collect.Collections2
 import groovy.stream.Stream
+import groovy.transform.EqualsAndHashCode
+import groovy.transform.ToString
 import pl.rafalmag.xmasgiftsdrawer.*
 import pl.rafalmag.xmasgiftsdrawer.graph.ModelToModelIslands2
 
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 
+@ToString
+@EqualsAndHashCode
 class PermutationDrawer implements Drawer {
     final Model model;
     final private Random random;
