@@ -70,7 +70,7 @@ class Model {
     }
 
     public boolean isValid() {
-        validator.isValid(this)
+        table.rowKeySet() == table.columnKeySet() && validator.isValid(this)
     }
 
     public String toString() {
@@ -88,5 +88,20 @@ class Model {
             toString += "\n"
         }
         toString
+    }
+
+    boolean equals(o) {
+        if (this.is(o)) return true
+        if (getClass() != o.class) return false
+
+        Model model = (Model) o
+
+        if (table != model.table) return false
+
+        return true
+    }
+
+    int hashCode() {
+        return (table != null ? table.hashCode() : 0)
     }
 }
