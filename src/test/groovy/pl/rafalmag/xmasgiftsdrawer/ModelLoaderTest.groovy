@@ -82,7 +82,7 @@ public class ModelLoaderTest extends Specification {
         model == model2
     }
 
-    def "should not load Model if too many columns"() {
+    def "should not load model if too many columns"() {
         when:
         loadModelFromResource("/modelTooManyColumns.csv")
         then:
@@ -90,9 +90,17 @@ public class ModelLoaderTest extends Specification {
         ex.message =~ /(?i)givers.*receivers/
     }
 
-    def "should not load Model if too many rows"() {
+    def "should not load model if too many rows"() {
         when:
         loadModelFromResource("/modelTooManyRows.csv")
+        then:
+        ModelLoader.ModelLoaderException ex = thrown()
+        ex.message =~ /(?i)givers.*receivers/
+    }
+
+    def "should not load model if givers do not match receivers"() {
+        when:
+        loadModelFromResource("/modelDiffGiversAndReceivers.csv")
         then:
         ModelLoader.ModelLoaderException ex = thrown()
         ex.message =~ /(?i)givers.*receivers/
