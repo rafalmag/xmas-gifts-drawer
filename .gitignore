@@ -58,5 +58,5 @@ gradle-app.setting
 # gradle/wrapper/gradle-wrapper.properties
 
 ### My
-
 classes/
+/src/main/resources/localModel.csv

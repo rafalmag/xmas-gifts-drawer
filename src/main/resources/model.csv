@@ -1,5 +1,7 @@
- ;A;B;C;D
-A;0;1;1;1
-B;1;0;0;1
-C;1;1;0;1
-D;1;1;1;0
+     ;Kasia;Rafal;Mirka;Antoni;Antek;Ania
+Kasia;0;0;1;1;1;1
+Rafal;0;0;0;1;1;0
+Mirka;1;0;0;1;1;1
+Antoni;1;1;1;0;1;1
+Antek;1;1;1;1;0;0
+Ania;1;0;1;1;0;0
