@@ -2,6 +2,7 @@ package pl.rafalmag.xmasgiftsdrawer
 
 import com.google.common.base.Splitter
 import com.google.common.collect.Lists
+import groovy.stream.Stream
 
 class ModelLoader {
 
@@ -15,6 +16,9 @@ class ModelLoader {
         List<Person> persons = parseHeader()
         def model = new Model([])
         parseValues(model, persons)
+        if(!model.giversMatchesReceivers()){
+            throw new ModelLoaderException("Givers do not match receivers (too many columns?) in model: $model")
+        }
         model
     }
 
@@ -33,17 +37,16 @@ class ModelLoader {
     }
 
     def parseValues(Model model, List<Person> persons) {
-        persons.each { giver ->
-            String line = readLine()
-            parseLine(model, giver, persons, line)
-        }
-        assert readLine() == null
+        Stream.from(reader.readLines())
+                .filter { !it.empty }
+                .toList()
+                .each { parseLine(model, persons, it) }
     }
 
-    def static void parseLine(Model model, Person giver, List<Person> receivers, String line) {
-        def values = Lists.newLinkedList(Splitter.on(';').split(line))
-        values.removeFirst();
-
+    def static void parseLine(Model model, List<Person> receivers, String line) {
+        def values = Lists.newLinkedList(Splitter.on(';').trimResults().split(line))
+        def giverValue = values.removeFirst()
+        Person giver = new Person(giverValue)
         receivers.each { receiver ->
             def value = values.removeFirst()
             switch (value) {
@@ -57,6 +60,16 @@ class ModelLoader {
                     //TODO my exception + test
                     throw new IOException("Value: " + value + " in line: " + line + " not supported.")
             }
+        }
+    }
+
+    static class ModelLoaderException extends Exception{
+        ModelLoaderException(String message) {
+            super(message)
+        }
+
+        ModelLoaderException(String message, Throwable cause) {
+            super(message, cause)
         }
     }
 }

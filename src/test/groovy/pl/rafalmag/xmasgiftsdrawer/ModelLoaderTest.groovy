@@ -14,28 +14,29 @@ public class ModelLoaderTest extends Specification {
     @Shared
     def d = new Person("D")
 
-    InputStream streamToModel
-    Model model;
-
-    def setup() {
-        streamToModel = ModelLoaderTest.class.getResourceAsStream("/model.csv")
-        def modelLoader = new ModelLoader(streamToModel)
-        model = modelLoader.load()
-    }
-
-    def cleanup() {
-        streamToModel.close()
+    Model loadModelFromResource(String resourceName) {
+        InputStream is = null
+        try {
+            is = ModelLoaderTest.class.getResourceAsStream(resourceName)
+            def modelLoader = new ModelLoader(is)
+            modelLoader.load()
+        } finally {
+            is?.close()
+        }
     }
 
     def "should contain proper names"() {
         when:
+        Model model = loadModelFromResource("/model.csv")
         def persons = model.getPersons()
         then:
         persons.containsAll([a, b, c, d])
     }
 
     def "should read can buy fields"() {
-        expect:
+        when:
+        Model model = loadModelFromResource("/model.csv")
+        then:
         !model.canGive(a, a) // seems obvious
         model.canGive(a, b)
         model.canGive(a, c)
@@ -64,7 +65,7 @@ public class ModelLoaderTest extends Specification {
         def giver = a
 
         when:
-        ModelLoader.parseLine(model, giver, receivers, "A;0;1;0;1")
+        ModelLoader.parseLine(model, receivers, "A;0;1;0;1")
 
         then:
         !model.canGive(giver, a)
@@ -73,5 +74,28 @@ public class ModelLoaderTest extends Specification {
         model.canGive(giver, d)
     }
 
+    def "should load random rows order model"() {
+        when:
+        Model model = loadModelFromResource("/model.csv")
+        Model model2 = loadModelFromResource("/modelRandomOrder.csv")
+        then:
+        model == model2
+    }
+
+    def "should not load Model if too many columns"() {
+        when:
+        loadModelFromResource("/modelTooManyColumns.csv")
+        then:
+        ModelLoader.ModelLoaderException ex = thrown()
+        ex.message =~ /(?i)givers.*receivers/
+    }
+
+    def "should not load Model if too many rows"() {
+        when:
+        loadModelFromResource("/modelTooManyRows.csv")
+        then:
+        ModelLoader.ModelLoaderException ex = thrown()
+        ex.message =~ /(?i)givers.*receivers/
+    }
 }
 

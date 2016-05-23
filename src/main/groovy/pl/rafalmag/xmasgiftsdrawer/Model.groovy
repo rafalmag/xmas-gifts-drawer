@@ -70,7 +70,11 @@ class Model {
     }
 
     public boolean isValid() {
-        table.rowKeySet() == table.columnKeySet() && validator.isValid(this)
+        giversMatchesReceivers() && validator.isValid(this)
+    }
+
+    public boolean giversMatchesReceivers() {
+        table.rowKeySet() == table.columnKeySet()
     }
 
     public String toString() {
