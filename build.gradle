@@ -37,8 +37,12 @@ dependencies {
     compile "com.google.guava:guava:18+"
     compile 'com.bloidonia:groovy-stream:0.8.1'
     testCompile 'org.assertj:assertj-core:1.7.0'
-    compile 'org.graphstream:gs-core:1.2'
-    compile 'org.graphstream:gs-algo:1.2'
+    compile('org.graphstream:gs-core:1.2') {
+        exclude group: 'junit', module: 'junit'
+    }
+    compile('org.graphstream:gs-algo:1.2') {
+        exclude group: 'junit', module: 'junit'
+    }
     compile 'org.jgrapht:jgrapht-core:0.9.1'
     compile 'ch.qos.logback:logback-core:1.1.3'
 }
