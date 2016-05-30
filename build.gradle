@@ -24,6 +24,10 @@ jacocoTestReport {
 group = 'pl.rafalmag.xmas'
 version = '0.2'
 
+// TODO test it
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
 repositories {
     mavenCentral()
 }
@@ -42,6 +46,7 @@ dependencies {
     }
     compile('org.graphstream:gs-algo:1.2') {
         exclude group: 'junit', module: 'junit'
+        exclude group: 'org.jfree', module: 'jfreechart'
     }
     compile 'org.jgrapht:jgrapht-core:0.9.1'
     compile 'ch.qos.logback:logback-core:1.1.3'
