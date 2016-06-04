@@ -58,4 +58,68 @@ class ModelTest extends Specification {
         expect:
         model != model2
     }
+
+    def "should addPerson work"() {
+        given:
+        def a = new Person("A")
+        Model model = new Model()
+        when:
+        model.addPerson(a)
+        then:
+        model.getPersons().size() == 1
+        model.getPersons().contains(a)
+    }
+
+    def "should add person init table"() {
+        def a = new Person("A")
+        def b = new Person("B")
+        Model model = new Model()
+        when:
+        model.addPerson(a)
+        model.addPerson(b)
+        then:
+        model.canGive(a, b)
+        !model.canGive(a, a)
+        model.canGive(b, a)
+        !model.canGive(b, b)
+        model.getPersons().containsAll([a, b])
+    }
+
+    def "should remove person work"() {
+        def a = new Person("A")
+        Model model = new Model([a])
+        when:
+        model.removePerson(a)
+        then:
+        model.getPersons().isEmpty()
+    }
+
+    def "should remove person work2"() {
+        def a = new Person("A")
+        def b = new Person("B")
+        Model model = new Model([a, b])
+        when:
+        model.removePerson(a)
+        then:
+        model.getPersons().size() == 1
+        model.getPersons().contains(b)
+        !model.canGive(a, a)
+        !model.canGive(a, b)
+        !model.canGive(b, a)
+        !model.canGive(b, b)
+    }
+
+    def "should remove already removed person"() {
+        def toBeRemovedTwice = new Person("A")
+        def neverPartOfModel = new Person("B")
+        def neverRemoved = new Person("B")
+        Model model = new Model([toBeRemovedTwice, neverRemoved])
+        when:
+        model.removePerson(toBeRemovedTwice)
+        model.removePerson(toBeRemovedTwice)
+        model.removePerson(neverPartOfModel)
+        then:
+        model.getPersons().size() == 1
+        model.getPersons().contains(neverRemoved)
+    }
 }

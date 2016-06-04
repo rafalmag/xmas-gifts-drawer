@@ -77,6 +77,25 @@ class Model {
         table.rowKeySet() == table.columnKeySet()
     }
 
+    public void addPerson(Person person) {
+        // add person to model
+        setCannotGive(person, person)
+        getPersons().each {
+            if (it != person) {
+                setCanGive(person, it)
+                setCanGive(it, person)
+            }
+        }
+    }
+
+    public void removePerson(Person person) {
+        getPersons().each {
+            table.remove(it, person)
+            table.remove(person, it)
+        }
+    }
+
+
     public String toString() {
         String toString = " ;"
         getPersons().each {
