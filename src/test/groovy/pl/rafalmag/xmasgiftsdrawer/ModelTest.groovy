@@ -111,8 +111,8 @@ class ModelTest extends Specification {
 
     def "should remove already removed person"() {
         def toBeRemovedTwice = new Person("A")
-        def neverPartOfModel = new Person("B")
         def neverRemoved = new Person("B")
+        def neverPartOfModel = new Person("C")
         Model model = new Model([toBeRemovedTwice, neverRemoved])
         when:
         model.removePerson(toBeRemovedTwice)
