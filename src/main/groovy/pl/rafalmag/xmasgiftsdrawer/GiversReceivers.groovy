@@ -65,4 +65,10 @@ class GiversReceivers {
             false
         }
     }
+
+
+    @Override
+    public String toString() {
+        return pairs.collect({"$it.giver\t-> $it.receiver"}).join("\n")
+    }
 }

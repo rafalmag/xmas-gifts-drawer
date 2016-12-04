@@ -24,7 +24,7 @@ class Main {
             if (!giversAndGetters.isValid(model)) {
                 throw new Exception("Not valid result produced")
             }
-            log.info(it.getClass().getSimpleName() + " computed (in $stopwatch) result: $giversAndGetters")
+            log.info(it.getClass().getSimpleName() + " computed (in $stopwatch) result:\n$giversAndGetters")
         }
         log.info("all done")
     }
